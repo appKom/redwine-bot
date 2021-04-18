@@ -1,4 +1,4 @@
 .ionide
 # .vscode
-src/App/obj
-src/App/bin
+obj
+bin
