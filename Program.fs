@@ -4,47 +4,10 @@ open Microsoft.Azure.WebJobs
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Microsoft.AspNetCore.Mvc
-open FSharp.Json
 open System.IO
-[<FunctionName("Ping")>]
-let ping
-    ([<HttpTrigger()>] request: HttpRequest)
-    (logger: ILogger) =
-    async {  
-        logger.LogWarning("Pong")
-        return new OkObjectResult("Pong")
-    }
-    |> Async.StartAsTask
+open FSharp.Data
 
-// [<FunctionName("Pong")>]
-//let pong
-//    ([<TimerTrigger("*/10 * * * * *", RunOnStartup = true)>] timerInfo: TimerInfo)
-//    (logger: ILogger) =
-//    async {        
-//       logger.LogWarning("Pong")
-//    }
-//    |> Async.StartAsTask
-
-
-type teamType = {
-    id: string
-    domain: string
-}
-
-type userType =  {
-    id: string
-    username: string
-    team_id: string
-}
-
-type requestType = {
-  token: string
-  action_ts: string
-  team: teamType
-  user: userType
-  callback_id: string
-  trigger_id: string
-}
+type provider = JsonProvider<""" {"type":"shortcut","token":"xxx","action_ts":"xxx","team":{"id":"xxx","domain":"xxx"},"user":{"id":"xxx","username":"xxx","team_id":"xxx"},"is_enterprise_install":false,"enterprise":null,"callback_id":"getWine","trigger_id":"xxx"} """>
 
 [<FunctionName("ShortcutResponse")>]
 let ShortcutResponse
@@ -52,12 +15,10 @@ let ShortcutResponse
     (logger: ILogger) =
     async {
         let sr = new StreamReader(request.Body)
-        let s = sr.ReadToEndAsync() |> Async.AwaitTask |> Async.RunSynchronously
-        logger.LogWarning(
-           s
-        )  
-        //let req = Json.deserialize<requestType> 
-
+        let urlDecodedPayload = sr.ReadToEndAsync() |> Async.AwaitTask |> Async.RunSynchronously |> System.Web.HttpUtility.UrlDecode 
+        let jsonData = provider.Parse(urlDecodedPayload.Substring 8)
+        
+        logger.LogWarning(jsonData.Type)  
 
         return new OkObjectResult("ok")
     }
