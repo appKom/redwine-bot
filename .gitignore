@@ -2,3 +2,7 @@
 # .vscode
 obj
 bin
+
+
+local.settings.json
+.env

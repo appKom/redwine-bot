@@ -15,6 +15,9 @@ let ping
     }
     |> Async.StartAsTask
 
+
+
+
 // [<FunctionName("Pong")>]
 let pong
     ([<TimerTrigger("*/10 * * * * *", RunOnStartup = true)>] timerInfo: TimerInfo)
@@ -23,3 +26,14 @@ let pong
         logger.LogWarning("Pong")
     }
     |> Async.StartAsTask
+
+
+[<FunctionName("ShortcutResponse")>]
+let ShortcutResponse
+    ([<HttpTrigger()>] request: HttpRequest)
+    (logger: ILogger) =
+    async {  
+        return new OkObjectResult()
+    }
+    |> Async.StartAsTask
+
