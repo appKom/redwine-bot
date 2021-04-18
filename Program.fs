@@ -15,7 +15,7 @@ let ping
     }
     |> Async.StartAsTask
 
-[<FunctionName("Pong")>]
+// [<FunctionName("Pong")>]
 let pong
     ([<TimerTrigger("*/10 * * * * *", RunOnStartup = true)>] timerInfo: TimerInfo)
     (logger: ILogger) =
