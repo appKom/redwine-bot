@@ -1,1 +1,4 @@
-.env
+.ionide
+.vscode
+src/App/obj
+src/App/bin
