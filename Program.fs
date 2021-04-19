@@ -24,7 +24,7 @@ let ShortcutResponse
 
    
         // let requestString = (Http.RequestString("https://slack.com/api/views.open", httpMethod = "POST",
-        //         headers = [ ContentType HttpContentTypes.Json; Authorization "bearer xoxb-1967817842422-1980766974324-Jb9SjWHejU6mnPG5BaPoqviD" ],
+        //         headers = [ ContentType HttpContentTypes.Json; Authorization "" ],
         //         body = TextRequest """ {
         //           "trigger_id": {triggerId},
         //           "view": {
