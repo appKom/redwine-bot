@@ -23,41 +23,40 @@ let ShortcutResponse
         logger.LogWarning(jsonData.Type)
 
    
-        let requestString = (Http.RequestString("https://slack.com/api/views.open", httpMethod = "POST",
-                headers = [ ContentType HttpContentTypes.Json; Authorization "bearer xoxb-1967817842422-1980766974324-Jb9SjWHejU6mnPG5BaPoqviD" ],
-                body = TextRequest """ {
-                  "trigger_id": {triggerId},
-                  "view": {
-                    "type": "modal",
-                    "callback_id": "modal-identifier",
-                    "title": {
-                      "type": "plain_text",
-                      "text": "Just a modal"
-                    },
-                    "blocks": [
-                      {
-                        "type": "section",
-                        "block_id": "section-identifier",
-                        "text": {
-                          "type": "mrkdwn",
-                          "text": "*Welcome* to ~my~ Block Kit _modal_!"
-                        },
-                        "accessory": {
-                          "type": "button",
-                          "text": {
-                            "type": "plain_text",
-                            "text": "Just a button"
-                          },
-                          "action_id": "button-identifier"
-                        }
-                      }
-                    ]
-                  }
-                } """ 
-            ))
-
-        let response = Http.Request(requestString)
-        logger.LogWarning(response.ResponseUrl)
+        // let requestString = (Http.RequestString("https://slack.com/api/views.open", httpMethod = "POST",
+        //         headers = [ ContentType HttpContentTypes.Json; Authorization "bearer xoxb-1967817842422-1980766974324-Jb9SjWHejU6mnPG5BaPoqviD" ],
+        //         body = TextRequest """ {
+        //           "trigger_id": {triggerId},
+        //           "view": {
+        //             "type": "modal",
+        //             "callback_id": "modal-identifier",
+        //             "title": {
+        //               "type": "plain_text",
+        //               "text": "Just a modal"
+        //             },
+        //             "blocks": [
+        //               {
+        //                 "type": "section",
+        //                 "block_id": "section-identifier",
+        //                 "text": {
+        //                   "type": "mrkdwn",
+        //                   "text": "*Welcome* to ~my~ Block Kit _modal_!"
+        //                 },
+        //                 "accessory": {
+        //                   "type": "button",
+        //                   "text": {
+        //                     "type": "plain_text",
+        //                     "text": "Just a button"
+        //                   },
+        //                   "action_id": "button-identifier"
+        //                 }
+        //               }
+        //             ]
+        //           }
+        //         } """ 
+        //     ))
+                 
+        //logger.LogWarning(response.ResponseUrl)
 
         return new OkObjectResult("ok")
     }
