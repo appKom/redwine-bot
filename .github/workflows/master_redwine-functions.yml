@@ -39,5 +39,5 @@ jobs:
         app-name: 'redwine-functions'
         slot-name: 'production'
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c8b4b659cfb640aeb7db240fe47e35f7 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_87c36c67a96044dda73493894eb09a93 }}
   
