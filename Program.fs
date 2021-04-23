@@ -12,6 +12,14 @@ open HttpFs.Client
 open FSharp.Data
 type provider = JsonProvider<""" {"type":"shortcut","token":"xxx","action_ts":"xxx","team":{"id":"xxx","domain":"xxx"},"user":{"id":"xxx","username":"xxx","team_id":"xxx"},"is_enterprise_install":false,"enterprise":null,"callback_id":"getWine","trigger_id":"xxx"} """>
 
+let requestTemplate = 
+  new StreamReader @"./request.json"
+  |> fun sr -> sr.ReadToEnd ()
+
+let tap f x =
+    f x
+    x
+
 [<FunctionName("ShortcutResponse")>]
 let ShortcutResponse
     ([<HttpTrigger()>] request: HttpRequest)
@@ -27,100 +35,7 @@ let ShortcutResponse
             Request.createUrl Post "https://slack.com/api/views.open"
             |> Request.setHeader (ContentType (ContentType.create("application", "json", HttpEncodings.PostDefaultEncoding)))
             |> Request.setHeader (Authorization "Bearer ")
-            |> Request.bodyString( "{ trigger_id: " + $""" "{jsonData.TriggerId}", """ + """  
-                "view" : {
-              	"type": "modal",
-              	"submit": {
-              		"type": "plain_text",
-              		"text": "Submit",
-              		"emoji": true
-              	},
-              	"close": {
-              		"type": "plain_text",
-              		"text": "Cancel",
-              		"emoji": true
-              	},
-              	"title": {
-              		"type": "plain_text",
-              		"text": "Redwine",
-              		"emoji": true
-              	},
-              	"blocks": [
-              		{
-              			"type": "header",
-              			"text": {
-              				"type": "plain_text",
-              				"text": "Legg til straff!",
-              				"emoji": true
-              			}
-              		},
-              		{
-              			"type": "section",
-              			"text": {
-              				"type": "mrkdwn",
-              				"text": "Velg bruker"
-              			},
-              			"accessory": {
-              				"type": "users_select",
-              				"placeholder": {
-              					"type": "plain_text",
-              					"text": "Select a user",
-              					"emoji": true
-              				},
-              				"action_id": "users_select-action"
-              			}
-              		},
-              		{
-              			"type": "actions",
-              			"elements": [
-              				{
-              					"type": "button",
-              					"text": {
-              						"type": "plain_text",
-              						"text": "🍺",
-              						"emoji": true
-              					},
-              					"value": "click_me_123"
-              				},
-              				{
-              					"type": "button",
-              					"text": {
-              						"type": "plain_text",
-              						"text": "🍷",
-              						"emoji": true
-              					},
-              					"value": "click_me_123"
-              				},
-              				{
-              					"type": "button",
-              					"text": {
-              						"type": "plain_text",
-              						"text": "🍸",
-              						"emoji": true
-              					},
-              					"value": "click_me_123"
-              				}
-              			]
-              		},
-              		{
-              			"type": "divider"
-              		},
-              		{
-              			"type": "input",
-              			"element": {
-              				"type": "plain_text_input",
-              				"multiline": true,
-              				"action_id": "plain_text_input-action"
-              			},
-              			"label": {
-              				"type": "plain_text",
-              				"text": "Begrunnelse",
-              				"emoji": true
-              			}
-              		}
-              	]
-              }
-            }""")
+            |> Request.bodyString (requestTemplate.Replace("#TriggerId", triggerId))
             |> Request.responseAsString
             |> run
 

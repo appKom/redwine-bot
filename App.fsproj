@@ -15,6 +15,10 @@
     <None Include="local.settings.json" CopyToPublishDirectory="Never">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="request.json" CopyToPublishDirectory="Never">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
   </ItemGroup>
 
   <ItemGroup>
